@@ -24,8 +24,9 @@ class HomeScreen extends StatelessWidget {
               ),
             ][viewModel.selectedIndex],
             bottomNavigationBar: NavigationBar(
+              indicatorColor: Colors.transparent,
               elevation: 1,
-              height: 80,
+              height: 60,
               backgroundColor: Colors.white,
               onDestinationSelected: (int index) {
                 viewModel.onItemTapped(index);

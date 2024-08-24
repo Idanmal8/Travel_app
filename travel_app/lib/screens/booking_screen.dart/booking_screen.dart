@@ -2,6 +2,7 @@ import 'package:apple_maps_flutter/apple_maps_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:travel_app/screens/booking_screen.dart/view_model/booking_screen_view_model.dart';
+import 'package:travel_app/screens/booking_screen.dart/widgets/history_card.dart';
 import 'package:travel_app/screens/booking_screen.dart/widgets/location_input_widget.dart';
 
 class BookingScreen extends StatelessWidget {
@@ -61,7 +62,11 @@ class BookingScreen extends StatelessWidget {
                       flex: 5,
                       child: Container(
                         decoration: const BoxDecoration(
-                          color: Colors.transparent,
+                          color: Color.fromRGBO(4, 121, 94, 1),
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(15),
+                            topRight: Radius.circular(15),
+                          ),
                         ),
                       ),
                     ),
@@ -77,14 +82,45 @@ class BookingScreen extends StatelessWidget {
                     Expanded(
                       flex: 5,
                       child: Container(
-                        decoration: const BoxDecoration(
-                          color: Color.fromRGBO(4, 121, 94, 1),
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(15),
-                            topRight: Radius.circular(15),
+                          decoration: const BoxDecoration(
+                            color: Color.fromRGBO(4, 121, 94, 1),
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(15),
+                              topRight: Radius.circular(15),
+                            ),
                           ),
-                        ),
-                      ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: ListView(
+                              children: const [
+                                SizedBox(height: 20),
+                                HistoryCard(
+                                  startLine: 'San Francisco',
+                                  destination: 'Nearby location',
+                                  time: '10 min.',
+                                  distance: '10 km.',
+                                ),
+                                HistoryCard(
+                                  startLine: 'San Francisco',
+                                  destination: 'Nearby location',
+                                  time: '10 min.',
+                                  distance: '10 km.',
+                                ),
+                                HistoryCard(
+                                  startLine: 'San Francisco',
+                                  destination: 'Nearby location',
+                                  time: '10 min.',
+                                  distance: '10 km.',
+                                ),
+                                HistoryCard(
+                                  startLine: 'San Francisco',
+                                  destination: 'Nearby location',
+                                  time: '10 min.',
+                                  distance: '10 km.',
+                                ),
+                              ],
+                            ),
+                          )),
                     ),
                   ],
                 ),
@@ -109,3 +145,4 @@ class BookingScreen extends StatelessWidget {
     );
   }
 }
+
