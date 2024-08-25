@@ -1,4 +1,5 @@
 import 'package:apple_maps_flutter/apple_maps_flutter.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_places_flutter/google_places_flutter.dart';
 import 'package:provider/provider.dart';
@@ -10,12 +11,14 @@ class LocationInputWidget extends StatefulWidget {
   final TextEditingController originController;
   final TextEditingController destinationController;
   final VoidCallback onPressed;
+  final bool isRouteLoading;
 
   const LocationInputWidget({
     required this.onPressed,
     required this.originController,
     required this.destinationController,
     required this.formKey,
+    required this.isRouteLoading,
     super.key,
   });
 
@@ -48,8 +51,6 @@ class LocationInputWidgetState extends State<LocationInputWidget> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              const Icon(Icons.search_rounded),
-                              const SizedBox(width: 10),
                               Expanded(
                                 child: GooglePlaceAutoCompleteTextField(
                                   boxDecoration: const BoxDecoration(
@@ -57,9 +58,32 @@ class LocationInputWidgetState extends State<LocationInputWidget> {
                                   ),
                                   textEditingController:
                                       widget.originController,
+                                  itemBuilder: (context, index, prediction) {
+                                    return Container(
+                                      margin: const EdgeInsets.symmetric(
+                                          vertical:
+                                              8.0), // Adds space between items
+                                      decoration: BoxDecoration(
+                                        color: Colors.transparent,
+                                        borderRadius: BorderRadius.circular(
+                                            8.0), // Custom border radius
+                                      ),
+                                      child: ListTile(
+                                        title: Text(
+                                          prediction.description ?? "",
+                                          style:
+                                              const TextStyle(fontSize: 14.0),
+                                        ),
+                                        leading: const Icon(Icons.location_on,
+                                            color: Colors.grey),
+                                      ),
+                                    );
+                                  },
                                   googleAPIKey: Keys.googleMapsKey,
                                   inputDecoration: const InputDecoration(
                                     hintText: 'From where?',
+                                    icon:
+                                        Icon(Icons.location_searching_rounded),
                                     border: InputBorder.none,
                                   ),
                                   debounceTime: 400,
@@ -97,8 +121,6 @@ class LocationInputWidgetState extends State<LocationInputWidget> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              const Icon(Icons.location_on),
-                              const SizedBox(width: 10),
                               Expanded(
                                 child: GooglePlaceAutoCompleteTextField(
                                   boxDecoration: const BoxDecoration(
@@ -109,8 +131,30 @@ class LocationInputWidgetState extends State<LocationInputWidget> {
                                   googleAPIKey: Keys.googleMapsKey,
                                   inputDecoration: const InputDecoration(
                                     hintText: 'Where to?',
+                                    icon: Icon(Icons.location_on),
                                     border: InputBorder.none,
                                   ),
+                                  itemBuilder: (context, index, prediction) {
+                                    return Container(
+                                      margin: const EdgeInsets.symmetric(
+                                          vertical:
+                                              8.0), // Adds space between items
+                                      decoration: BoxDecoration(
+                                        color: Colors.transparent,
+                                        borderRadius: BorderRadius.circular(
+                                            8.0), // Custom border radius
+                                      ),
+                                      child: ListTile(
+                                        title: Text(
+                                          prediction.description ?? "",
+                                          style:
+                                              const TextStyle(fontSize: 14.0),
+                                        ),
+                                        leading: const Icon(Icons.location_on,
+                                            color: Colors.grey),
+                                      ),
+                                    );
+                                  },
                                   debounceTime: 400,
                                   isLatLngRequired: true,
                                   getPlaceDetailWithLatLng: (prediction) async {
@@ -155,10 +199,14 @@ class LocationInputWidgetState extends State<LocationInputWidget> {
                         borderRadius: BorderRadius.circular(5),
                       ),
                       color: const Color.fromRGBO(4, 121, 94, 1),
-                      child: const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child:
-                            Icon(Icons.swap_vert_rounded, color: Colors.white),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: widget.isRouteLoading ? const CupertinoActivityIndicator(
+                          radius: 12,
+                          color: Colors.white,
+                        ) :
+                        const Icon(Icons.send_and_archive_rounded,
+                            color: Colors.white),
                       ),
                     ),
                   )

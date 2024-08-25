@@ -26,9 +26,18 @@ class HistoryCard extends StatelessWidget {
             Row(
               children: [
                 const Icon(
-                  Icons.location_on,
+                  Icons.location_searching_rounded,
                 ),
-                Text(startLine)
+                const SizedBox(
+                    width: 8.0), // Add spacing between the icon and text
+                Expanded(
+                  child: Text(
+                    startLine,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                        fontSize: 14.0), // Optional: Adjust the text style
+                  ),
+                ),
               ],
             ),
             const Padding(
@@ -45,19 +54,28 @@ class HistoryCard extends StatelessWidget {
                 const Icon(
                   Icons.location_on,
                 ),
-                Text(destination),
+                const SizedBox(
+                    width: 8.0), // Add spacing between the icon and text
+                Expanded(
+                  child: Text(
+                    destination,
+                    overflow: TextOverflow.ellipsis,
+                    style:const  TextStyle(
+                        fontSize: 14.0), // Optional: Adjust the text style
+                  ),
+                ),
               ],
             ),
             const SizedBox(height: 10),
-            const Row(
+            Row(
               children: [
-                Icon(Icons.timer),
-                SizedBox(width: 5),
-                Text('10 min.'),
-                SizedBox(width: 20),
-                Icon(Icons.roundabout_left),
-                SizedBox(width: 5),
-                Text('10 km.'),
+                const Icon(Icons.timer),
+                const SizedBox(width: 5),
+                Text(time),
+                const SizedBox(width: 20),
+                const Icon(Icons.roundabout_left),
+                const SizedBox(width: 5),
+                Text(distance),
               ],
             )
           ],

@@ -1,10 +1,15 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
+
 import 'package:apple_maps_flutter/apple_maps_flutter.dart';
+
 import 'package:http/http.dart' as http;
+
 import 'package:travel_app/constants/keys.dart';
 
+import 'package:travel_app/model/route.dart';
 class RoutesService {
-  Future<List<LatLng>> fetchRoutePoints(LatLng origin, LatLng destination) async {
+  Future<RouteModel> fetchRoute(LatLng origin, LatLng destination) async {
     const String endpoint = 'https://routes.googleapis.com/directions/v2:computeRoutes';
 
     final Map<String, dynamic> requestBody = {
@@ -24,7 +29,7 @@ class RoutesService {
           }
         }
       },
-      "travelMode": "WALK",
+      "travelMode": "DRIVE",
       "routingPreference": "ROUTING_PREFERENCE_UNSPECIFIED",
       "polylineQuality": "HIGH_QUALITY",
       "polylineEncoding": "ENCODED_POLYLINE",
@@ -49,18 +54,22 @@ class RoutesService {
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
-
-      // Assuming the polyline is encoded and located at the expected place
-      final String polyline = data['routes'][0]['polyline']['encodedPolyline'];
-      return _decodePolyline(polyline);
+      print(data);
+      RouteModel route = RouteModel(
+        polyline: data['routes'][0]['polyline']['encodedPolyline'],
+        distanceMeters: data['routes'][0]['distanceMeters'],
+        duration: data['routes'][0]['duration'],
+      );
+      print(route.duration);
+      return route;
     } else {
-      print('Failed to fetch route. Status code: ${response.statusCode}');
-      print('Response: ${response.body}');
+      debugPrint('Failed to fetch route. Status code: ${response.statusCode}');
+      debugPrint('Response: ${response.body}');
       throw Exception('Failed to load route');
     }
   }
 
-  List<LatLng> _decodePolyline(String polyline) {
+  List<LatLng> decodePolyline(String polyline) {
     List<LatLng> points = [];
     int index = 0, len = polyline.length;
     int lat = 0, lng = 0;

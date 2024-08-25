@@ -12,61 +12,9 @@ class HomeScreen extends StatelessWidget {
       create: (context) => HomeScreenViewModel(),
       child: Consumer<HomeScreenViewModel>(
         builder: (context, viewModel, _) {
-          return Scaffold(
+          return const Scaffold(
             backgroundColor: Colors.white,
-            body: <Widget>[
-              const BookingScreen(),
-              Container(
-                color: Colors.blue,
-                child: const Center(
-                  child: Text('Flights'),
-                ),
-              ),
-            ][viewModel.selectedIndex],
-            bottomNavigationBar: NavigationBar(
-              indicatorColor: Colors.transparent,
-              elevation: 1,
-              height: 60,
-              backgroundColor: Colors.white,
-              onDestinationSelected: (int index) {
-                viewModel.onItemTapped(index);
-              },
-              selectedIndex: viewModel.selectedIndex,
-              destinations: <Widget>[
-                NavigationDestination(
-                  selectedIcon: SizedBox(
-                    width: 25,
-                    height: 25,
-                    child: Image.asset(
-                        '/Users/idanmal/Desktop/Projects/Travel_app/travel_app/assets/icons/home_fill.png'),
-                  ),
-                  icon: SizedBox(
-                    width: 25,
-                    height: 25,
-                    child: Image.asset(
-                      '/Users/idanmal/Desktop/Projects/Travel_app/travel_app/assets/icons/home.png',
-                    ),
-                  ),
-                  label: 'Book',
-                ),
-                NavigationDestination(
-                  selectedIcon: SizedBox(
-                    width: 25,
-                    height: 25,
-                    child: Image.asset(
-                        '/Users/idanmal/Desktop/Projects/Travel_app/travel_app/assets/icons/airplane_fill.png'),
-                  ),
-                  icon: SizedBox(
-                    width: 25,
-                    height: 25,
-                    child: Image.asset(
-                      '/Users/idanmal/Desktop/Projects/Travel_app/travel_app/assets/icons/airplane.png',
-                    ),
-                  ),
-                  label: 'Flights',
-                ),
-              ],
-            ),
+            body: BookingScreen(),
           );
         },
       ),
